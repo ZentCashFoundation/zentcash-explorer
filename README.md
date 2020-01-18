@@ -1,5 +1,5 @@
 # ZentCash-Blockchain-Explorer
-Block explorer for ZentCash CryptoNote based cryptocurrency.
+Block Explorer for Zent Cash.
 
 #### Installation
 
