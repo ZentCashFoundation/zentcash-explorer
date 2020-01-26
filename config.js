@@ -1,4 +1,4 @@
-var api = 'http://seedpro2.zent.cash:21698';
+var api = 'https://seedpro2.zent.cash:443';
 var donationAddress = "";
 var blockTargetInterval = 60; // enter the block interval in seconds
 var coinUnits = 100;  // enter in the amount of atomic units in 1 coin, eg. 100 shells = 1 ZTC
