@@ -10,7 +10,6 @@ var refreshDelay = 30000;
 var networkStat = {
  "ztc": [
    ["cryptonote.club", "https://ztc.cryptonote.club:8199"],
-	 ["cryptohispano.net", "https://ztc.cryptohispano.net/api"],
    ["fastpool.xyz", "https://backup.fastpool.xyz:8128"],
    ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:8135"],
    ["pool001.zent.cash", "https://pool001api.zent.cash:8080"]
@@ -20,7 +19,6 @@ var networkStat = {
 var networkStat2 = {
   "ztc": [
     ["cryptonote.club", "https://ztc.cryptonote.club:8199"],
-    ["cryptohispano.net", "https://ztc.cryptohispano.net/api"],
     ["fastpool.xyz", "https://backup.fastpool.xyz:8128"],
     ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:8135"],
     ["pool001.zent.cash", "https://pool001api.zent.cash:8080"]
