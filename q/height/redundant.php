@@ -6,5 +6,5 @@ curl_setopt($ch, CURLOPT_URL, 'http://seedpro2.zent.cash:21698/info');
 $result = curl_exec($ch);
 $obj = json_decode($result, TRUE);
 curl_close($ch);
-print_r($obj['last_known_block_index']);
+print_r($obj['height']);
 ?>
