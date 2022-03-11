@@ -9,19 +9,14 @@ var refreshDelay = 30000;
 // pools stats by MainCoins
 var networkStat = {
  "ztc": [
-   ["cryptonote.club", "https://ztc.cryptonote.club:8199"],
-   ["fastpool.xyz", "https://fastpool.xyz:8128"],
    ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:8135"],
-   ["pool001.zent.cash", "https://pool001api.zent.cash:8080"]
+   ["pool.zent.cash", "https://pool.zent.cash:8135"]
  ]
 };
 
 var networkStat2 = {
   "ztc": [
-    ["cryptonote.club", "https://ztc.cryptonote.club:8199"],
-    ["fastpool.xyz", "https://fastpool.xyz:8128"],
-    ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:8135"],
-    ["pool001.zent.cash", "https://pool001api.zent.cash:8080"]
+
  ]
 };
 
