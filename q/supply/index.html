@@ -1,4 +1,3 @@
-<span id="totalCoins">0</span>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function updateText(elementId, text){
@@ -9,7 +8,7 @@
         return el;
     }
     $.ajax({
-            url: 'http://seedpro2.zent.cash:21698/json_rpc',
+            url: 'https://seedpro2.zent.cash/json_rpc',
             method: "POST",
             data: JSON.stringify({
                 jsonrpc:"2.0",
@@ -22,7 +21,7 @@
             success: function(data) {
                 last_block_hash = data.result.block_header.hash;
                 $.ajax({
-                    url: 'http://seedpro2.zent.cash:21698/json_rpc',
+                    url: 'https://seedpro2.zent.cash/json_rpc',
                     method: "POST",
                     data: JSON.stringify({
                         jsonrpc:"2.0",
@@ -42,3 +41,4 @@
             }
     });
 </script>
+<span id="totalCoins">0</span>

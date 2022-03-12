@@ -1,0 +1,44 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function updateText(elementId, text){
+        var el = document.getElementById(elementId);
+        if (el.textContent !== text){
+            el.textContent = text;
+        }
+        return el;
+    }
+    $.ajax({
+            url: 'https://seedpro2.zent.cash/json_rpc',
+            method: "POST",
+            data: JSON.stringify({
+                jsonrpc:"2.0",
+                id: "test",
+                method:"getlastblockheader",
+                params: {}
+            }),
+            dataType: 'json',
+            cache: 'false',
+            success: function(data) {
+                last_block_hash = data.result.block_header.hash;
+                $.ajax({
+                    url: 'https://seedpro2.zent.cash/json_rpc',
+                    method: "POST",
+                    data: JSON.stringify({
+                        jsonrpc:"2.0",
+                        id: "test",
+                        method:"f_block_json",
+                        params: {
+                            hash: last_block_hash
+                        }
+                    }),
+                    dataType: 'json',
+                    cache: 'false',
+                    success: function(data) {
+                    block = data.result.block;
+                       updateText('rewardBlock', block.reward/100);
+                    }
+                });
+            }
+    });
+</script>
+<span id="rewardBlock">0</span>
