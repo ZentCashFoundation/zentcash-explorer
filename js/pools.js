@@ -43,9 +43,9 @@ var renderPoolRow = function (host, name, data, d) {
     pools_row.push('<tr>');
     pools_row.push('<td id=host-' + name + '><a target="_blank" href="http://' + host + '">' + name + '</a></td>');
     pools_row.push('<td class="height" id=height-' + name + '>' + localizeNumber(data.network.height) + '</td>');
-    pools_row.push('<td id=hashrate-' + name + '>' + localizeNumber(data.pool.hashrate) + ' H/s</td>');
-    pools_row.push('<td id=miners-' + name + '>' + localizeNumber(data.pool.miners) + '</td>');
-    pools_row.push('<td id=totalFee-' + name + '>' + calculateTotalFee(data) + '%</td>');
+    pools_row.push('<td id=hashrate-' + name + '>' + ' PROP: ' + localizeNumber(data.pool.hashrate) + 'H/s' + '<br/>' + ' SOLO: ' + (data.pool.hashrateSolo || 0) + 'H/s' + '</td>');
+    pools_row.push('<td id=miners-' + name + '>' + ' PROP: ' + localizeNumber(data.pool.miners) + '<br/>' + ' SOLO: ' + (data.pool.minersSolo || 0) + '</td>');
+    pools_row.push('<td id=totalFee-' + name + '>' + ' PROP: ' + (calculateTotalFee(data) || localizeNumber(data.config.fee)) + '%' + '<br/>' + ' SOLO: ' + localizeNumber(data.config.soloFee || 0) + '%' + '</td>');
     pools_row.push('<td id=minPayout-' + name + '>' + getReadableCoins(data.config.minPaymentThreshold, 2) + '</td>');
     pools_row.push('<td><span id=lastFound-' + name + '>' + datestring + '</span> (<span class="timeago" id="ago-' + name + '">' + agostring + '</span>)</td>');
     pools_row.push('</tr>');
@@ -251,8 +251,7 @@ NETWORK_STAT_MAP3.forEach(function (url, host, map) {
             });
 
             $.getJSON(url + '/config', function (data, textStatus, jqXHR) {
-            //  updateText('totalFee-' + poolName, "PPLNS: " + data.pplns_fee + "%");
-                updateText('totalFee-' + poolName, "" + data.pplns_fee + "%");
+                updateText('totalFee-' + poolName, " PROP: " + data.pplns_fee + "%" + "\n" + " SOLO: " + (data.solo_fee || 0) + "%");
                 updateText('minPayout-' + poolName, "Wallet: " + getReadableCoins(data.min_wallet_payout, 2) + ",\nExchange: " + getReadableCoins(data.min_exchange_payout, 2));
             });
         }).always(function () {
