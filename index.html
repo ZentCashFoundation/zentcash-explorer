@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="icon" type="image/icon" href="favicon.ico" >
 	<title>Zent Cash | Blockchain Explorer - [ZTC]</title>
@@ -16,16 +16,16 @@
 	<meta property="og:site_name" content="Zent Cash | Blockchain Explorer - [ZTC]"/>
 	<meta property="og:locale" content="en_US"/>
 	<meta property="og:type" content="article"/>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.4.0/jquery.timeago.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <link href="css/themes/zent/style.css" rel="stylesheet" id="theme_link">
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.4.0/jquery.timeago.min.js"></script>
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  	<link href="css/themes/zent/style.css" rel="stylesheet" id="theme_link">
 	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 	<script src="./config.js"></script>
-  <script src="js/main.js"></script>
+  	<script src="js/main.js"></script>
 </head>
 <body>
 
@@ -102,66 +102,61 @@ function GetSearchBlockbyHeight(){
                 jsonrpc:"2.0",
                 id: "getblockheaderbyheight",
                 method:"getblockheaderbyheight",
-                params: {
-                   height: parseInt(text)
-                }
+                params: {height: parseInt(text)}
             }),
             dataType: 'json',
             cache: 'false',
             success: function(data){
-				if(data.result){
-					block = data.result.block_header;
-					window.location.href = getBlockchainUrl(block.hash);
-				} else if(data.error) {
-					wrongSearchAlert();
-				}
+			if(data.result){
+				block = data.result.block_header;
+				window.location.href = getBlockchainUrl(block.hash);
+			} else if(data.error) {
+				wrongSearchAlert();
+			}
             }
         });
 }
 
 function GetSearchBlockExplorerHash(){
- 			$.ajax({
+ 	$.ajax({
             url: api + '/json_rpc',
             method: "POST",
             data: JSON.stringify({
                 jsonrpc:"2.0",
                 id: "GetSearchBlockExplorerHash",
                 method:"f_block_json",
-                params: {
-                   hash: text
-                }
+                params: {hash: text}
             }),
             dataType: 'json',
             cache: 'false',
-			success: function(data){
-				if(data.result){
-					block = data.result.block;
-					sessionStorage.setItem('searchBlock', JSON.stringify(block));
-					window.location.href = getBlockchainUrl(block.hash);
+	    success: function(data){
+			if(data.result){
+				block = data.result.block;
+				sessionStorage.setItem('searchBlock', JSON.stringify(block));
+				window.location.href = getBlockchainUrl(block.hash);
 				}	
 			},
-			error: function( )	{
+	    error: function( ) {
 				$.ajax({
 				url: api + '/json_rpc',
 				method: "POST",
 				data: JSON.stringify({
-				jsonrpc:"2.0",
-				id: "GetSearchBlockExplorerHash",
-				method:"f_transaction_json",
-						params: {
-							hash: text
-						}
+					jsonrpc:"2.0",
+					id: "GetSearchBlockExplorerHash",
+					method:"f_transaction_json",
+					params: {hash: text}
 				}),
 				dataType: 'json',
 				cache: 'false',
 				success: function(data){
-					if(data.result){
+						if(data.result){
 							sessionStorage.setItem('searchTransaction', JSON.stringify(data.result));
 							window.location.href = transactionExplorer.replace('{id}', text);
-					}	  
-					  				
-				}});
-			}});	
+						}	  
+				}	  				
+				});
+	}
+       });	
 }
 
 if ( text.length < 64 ) {
