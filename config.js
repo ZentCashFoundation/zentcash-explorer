@@ -9,8 +9,7 @@ var refreshDelay = 30000;
 // pools stats by MainCoins
 var networkStat = {
  "ztc": [
-   ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:8135"],
-   ["pool.zent.cash", "https://pool.zent.cash:8135"]
+   ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:14036"]
  ]
 };
 
