@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="icon" type="image/icon" href="favicon.ico" >
 	<title>Zent Cash | Blockchain Explorer - [ZTC]</title>
@@ -16,16 +16,16 @@
 	<meta property="og:site_name" content="Zent Cash | Blockchain Explorer - [ZTC]"/>
 	<meta property="og:locale" content="en_US"/>
 	<meta property="og:type" content="article"/>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.4.0/jquery.timeago.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link href="css/themes/zent/style.css" rel="stylesheet" id="theme_link">
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.4.0/jquery.timeago.min.js"></script>
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  	<link href="css/themes/zent/style.css" rel="stylesheet" id="theme_link">
 	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 	<script src="./config.js"></script>
-    <script src="js/main.js"></script>
+  	<script src="js/main.js"></script>
 </head>
 <body>
 
@@ -95,117 +95,74 @@ $('#btn_search').click(function(e) {
 var text = document.getElementById('txt_search').value;
 
 function GetSearchBlockbyHeight(){
-
-	var block, xhrGetSearchBlockbyHeight;
-    if (xhrGetSearchBlockbyHeight) xhrGetSearchBlockbyHeight.abort();
-
-			xhrGetSearchBlockbyHeight = $.ajax({
+	 $.ajax({
             url: api + '/json_rpc',
             method: "POST",
             data: JSON.stringify({
                 jsonrpc:"2.0",
-                id: "blockbyheight",
+                id: "getblockheaderbyheight",
                 method:"getblockheaderbyheight",
-                params: {
-                   height: parseInt(text)
-                }
+                params: {height: parseInt(text)}
             }),
             dataType: 'json',
             cache: 'false',
             success: function(data){
-				if(data.result){
-					block = data.result.block_header;
-					window.location.href = getBlockchainUrl(block.hash);
-				} else if(data.error) {
-					wrongSearchAlert();
-				}
+			if(data.result){
+				block = data.result.block_header;
+				window.location.href = getBlockchainUrl(block.hash);
+			} else if(data.error) {
+				wrongSearchAlert();
+			}
             }
         });
 }
 
-function GetSearchBlock(){
-var block, xhrGetSearchBlock;
-	if (xhrGetSearchBlock) xhrGetSearchBlock.abort();
-		xhrGetSearchBlock = $.ajax({
+function GetSearchBlockExplorerHash(){
+ 	$.ajax({
             url: api + '/json_rpc',
             method: "POST",
             data: JSON.stringify({
                 jsonrpc:"2.0",
-                id: "GetSearchBlock",
+                id: "GetSearchBlockExplorerHash",
                 method:"f_block_json",
-                params: {
-                   hash: text
-                }
+                params: {hash: text}
             }),
             dataType: 'json',
             cache: 'false',
-			success: function(data){
-				if(data.result){
-					block = data.result.block;
-					sessionStorage.setItem('searchBlock', JSON.stringify(block));
-					window.location.href = getBlockchainUrl(block.hash);
-				} else if(data.error) {
-					$.ajax({
-						url: api + '/json_rpc',
-						method: "POST",
-						data: JSON.stringify({
-							jsonrpc:"2.0",
-							id: "test",
-							method:"f_transaction_json",
-							params: {
-								hash: text
-							}
-						}),
-						dataType: 'json',
-						cache: 'false',
-						success: function(data){
-							  if(data.result){
-								sessionStorage.setItem('searchTransaction', JSON.stringify(data.result));
-								window.location.href = transactionExplorer.replace('{id}', text);
-							  } else if(data.error) {
-								xhrGetTsx =  $.ajax({
-									url: api + '/json_rpc',
-									method: "POST",
-									data: JSON.stringify({
-										jsonrpc:"2.0",
-										id: "test",
-										method:"k_transactions_by_payment_id",
-										params: {
-											payment_id: text
-										}
-									}),
-									dataType: 'json',
-									cache: 'false',
-									success: function(data){
-										if(data.result){
-											txsByPaymentId = data.result.transactions;
-											sessionStorage.setItem('txsByPaymentId', JSON.stringify(txsByPaymentId));
-											window.location.href = paymentIdExplorer.replace('{id}', text);
-										} else if(data.error) {
-											$('#page').after(
-												'<div class="alert alert-warning alert-dismissable fade in" style="position: fixed; right: 50px; top: 50px;">'+
-													'<button type="button" class="close" ' +
-															'data-dismiss="alert" aria-hidden="true">' +
-														'&times;' +
-													'</button>' +
-													'We could not find anything.' +
-												 '</div>');
-										}
-									}
-								});
-
-							  }
-						}
-					});
-				}
-			}
-		});
+	    success: function(data){
+			if(data.result){
+				block = data.result.block;
+				sessionStorage.setItem('searchBlock', JSON.stringify(block));
+				window.location.href = getBlockchainUrl(block.hash);
+				}	
+			},
+	    error: function( ) {
+				$.ajax({
+				url: api + '/json_rpc',
+				method: "POST",
+				data: JSON.stringify({
+					jsonrpc:"2.0",
+					id: "GetSearchBlockExplorerHash",
+					method:"f_transaction_json",
+					params: {hash: text}
+				}),
+				dataType: 'json',
+				cache: 'false',
+				success: function(data){
+						if(data.result){
+							sessionStorage.setItem('searchTransaction', JSON.stringify(data.result));
+							window.location.href = transactionExplorer.replace('{id}', text);
+						}	  
+				}	  				
+				});
+	}
+       });	
 }
 
 if ( text.length < 64 ) {
 	GetSearchBlockbyHeight();
 } else if ( text.length == 64 ) {
-	GetSearchBlock();
+	GetSearchBlockExplorerHash();
 } else {
 	wrongSearchAlert();
 }
@@ -221,7 +178,7 @@ function wrongSearchAlert() {
 		'data-dismiss="alert" aria-hidden="true">' +
 		'&times;' +
 		'</button>' +
-		'<strong>Wrong search query!</strong><br /> Please enter block height or hash, transaction hash, or payment id.' +
+		'<strong>Wrong search query!</strong><br /> Please enter block height or hash or transaction hash.' +
 		'</div>');
 }
 
@@ -243,34 +200,20 @@ $('#txt_search').keyup(function(e){
 
 <footer>
 	<div class="container">
-                <div class="row">
+        <div class="row">
 			<div class="col-sm-12  text-center" id="donations" style="word-wrap:break-word; display:none;">
                         Donations Welcome:<br/>
                         <span id="donationAddress"></span><br/><br/>
 			</div>
-                </div>
+        </div>
 		<div class="row">
-			<div class="col-lg-4 col-md-3 col-sm-3 text-center">
-				<p>
-					<small>
-						<strong>Zent Cash - Copyright &copy; 2022</strong>
-					</small>
-				</p>
+			<div class="col-lg-4 col-md-12 col-sm-12 text-center">
+					<p>
+						<small>	Powered by <a target="_blank" href="https://github.com/ZentCashFoundation/zentcash-explorer" target="_blank"><i class="fa fa-github"></i> Zent Cash Blockchain Explorer</a> v1.1.5<br/></small>
+					</p>
 			</div>
-			<div class="col-lg-4 col-md-3 col-sm-6 text-center">
-				<p>
-					<small>
-					<!-- This copyright should be left intact -->
-
-					Powered by <a target="_blank" href="https://github.com/ZentCashFoundation/zentcash-explorer" target="_blank"><i class="fa fa-github"></i> Zent Cash Blockchain Explorer</a> v1.1.4<br/>
-
-					</small>
-				</p>
-			</div>
-			<div class="col-lg-4 col-md-3 col-sm-3 text-center">
-                                <ul class="list-unstyled">
-				        <li><a href="https://www.zent.cash/" target="_blank">ZENT.CASH</a></li>
-                               </ul>
+			<div class="col-lg-4 col-md-12 col-sm-12 text-center">
+				<p><small><strong>Copyright &copy; <span id="current-year">2022</span> <a href="https://www.zent.cash/" target="_blank">Zent Cash</a></strong></small></p>
 			</div>
 		</div>
     </div>
