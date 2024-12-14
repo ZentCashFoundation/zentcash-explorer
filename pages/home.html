@@ -428,7 +428,7 @@
                                 '<td>' + getReadableCoins(amount, 4, true) + '</td>' +
                                 '<td>' + getReadableCoins(fee, 4, true) + '</td>' +
                                 '<td>' + localizeNumber(size) + '</td>' +
-                                '<td>' + formatPaymentLink(hash) + '</td>';
+                                '<td>' + hash + '</td>';
                             row.innerHTML = columns;
                             $(txsRows).append(row);
                            // $(row).find('.mtx-ago').timeago('update', new Date(timestamp * 1000).toISOString()); We can re-enable this after a timestamp is added to the mem_pool json
