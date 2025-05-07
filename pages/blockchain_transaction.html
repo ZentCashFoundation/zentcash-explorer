@@ -1,17 +1,19 @@
 <h2 class="optimization-resolution"><i class="fas fa-code-branch" aria-hidden="true"></i> Transaction</h2>
 <div class="row" id="tx_info">
     <div class="col-md-12 stats">
-        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Unique fingerprint of the transaction."><i class="fas fa-hashtag fa-fw"></i></span> Hash: <span id="transaction.hash" style="word-break: break-all;"></span></div>
-        <div id="confirmations" style="display: none;"><span data-toggle="tooltip" data-placement="right" data-original-title="The number of network confirmations."><i class="fas fa-check-double"></i></span> Confirmations: <span id="transaction.confirmations"></span>, First confirmation time: <span id="transaction.timestamp"></span> (<time class="transaction-timeago"></time>)</div>
-        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Money that goes to the miner, who included this transaction into block."><i class="fab fa-buromobelexperte"></i></span> Fee: <span id="transaction.fee"></span></div>
-        <div><span data-toggle="tooltip" data-placement="right" data-original-title="It does not mean that this is the amount that is actually transferred."><i class="fas fa-dollar-sign"></i></span> Sum of outputs: <span id="transaction.amount_out"></span></div>
-        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Size of the transaction in bytes."><i class="fas fa-align-left"></i></span> Size: <span id="transaction.size"></span></div>
+        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Unique fingerprint of the transaction."><i class="fa fa-hashtag fa-fw"></i></span> Hash: <span id="transaction.hash" style="word-break: break-all;"></span></div>
+        <div id="confirmations" style="display: none;"><span data-toggle="tooltip" data-placement="right" data-original-title="The number of network confirmations."><i class="fa fa-list"></i></span> Confirmations: <span id="transaction.confirmations"></span>, First confirmation time: <span id="transaction.timestamp"></span> (<time class="transaction-timeago"></time>)</div>
+        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Money that goes to the miner, who included this transaction into block."><i class="fa fa-money"></i></span> Fee: <span id="transaction.fee"></span></div>
+        <div><span data-toggle="tooltip" data-placement="right" data-original-title="It does not mean that this is the amount that is actually transferred."><i class="fa fa-money"></i></span> Sum of outputs: <span id="transaction.amount_out"></span></div>
+        <div><span data-toggle="tooltip" data-placement="right" data-original-title="Size of the transaction in bytes."><i class="fa fa-tasks"></i></span> Size: <span id="transaction.size"></span></div>
+        <div><span data-toggle="tooltip" data-placement="right"><i class="fa fa-align-left"></i></span> Extra: <span id="transaction.extra"> - </span></div>
+        <div><span data-toggle="tooltip" data-placement="right"><i class="fa fa-align-left"></i></span> Extra Decoding: <span id="transaction.extra.decifer"></span></div>
         <div id="div_transaction_paymentId">
-            <span data-toggle="tooltip" data-placement="right" data-original-title="Optional user-defined hexadecimal characters string. Can be used by anyone to distinguish the transactions easier."><i class="far fa-address-card"></i></span> Payment ID: <span id="transaction.paymentId"></span>
+            <span data-toggle="tooltip" data-placement="right" data-original-title="Optional user-defined hexadecimal characters string. Can be used by anyone to distinguish the transactions easier."><i class="fa fa-address-card"></i></span> Payment ID: <span id="transaction.paymentId"></span>
             <br />
             Payment ID decoding: <em id="transaction.paymentIdDecifer"></em>
         </div>
-        <div id="div_transaction_mixin"><span data-toggle="tooltip" data-placement="right" data-original-title="Denotes how many random inputs are mixed within this transactions in order to achieve desired level of anonimity. Mixin count 1 means no additional inputs are mixed in and thus each input can be traced back."><i class="fas fa-american-sign-language-interpreting"></i></span> Mixin count: <span id="transaction.mixin"></span></div>
+        <div id="div_transaction_mixin"><span data-toggle="tooltip" data-placement="right" data-original-title="Denotes how many random inputs are mixed within this transactions in order to achieve desired level of anonimity. Mixin count 1 means no additional inputs are mixed in and thus each input can be traced back."><i class="fa fa-american-sign-language-interpreting"></i></span> Mixin count: <span id="transaction.mixin"></span></div>
         <div id="tx_unconfirmed" style="display: none;"><span data-toggle="tooltip" data-placement="right" data-original-title="The transaction is not included into block yet and therefore is not wtitten into blockchain."><i class="fas fa-hands"></i></span> <span class="text-warning">Unconfirmed transaction</span></div>
     </div>
 </div>
@@ -19,9 +21,9 @@
     <h3><i class="fa fa-cube fa-fw" aria-hidden="true"></i> In block</h3>
     <div class="row">
         <div class="col-md-12 stats">
-            <div><i class="fas fa-code"></i> Hash: <span id="block.hash" style="word-break: break-all;"></span></div>
-            <div><i class="fas fa-terminal"></i> Height: <span id="block.height"></span></div>
-            <div><i class="far fa-clock"></i> Timestamp: <span id="block.timestamp"></span></div>
+            <div><i class="fa fa-code"></i> Hash: <span id="block.hash" style="word-break: break-all;"></span></div>
+            <div><i class="fa fa-terminal"></i> Height: <span id="block.height"></span></div>
+            <div><i class="fa fa-clock-o"></i> Timestamp: <span id="block.timestamp"></span></div>
         </div>
     </div>
 </div>
@@ -121,9 +123,16 @@
     function renderTransaction(transaction) {
 
         var details = transaction.txDetails;
+        extra = transaction.tx.extra;
         inputs = transaction.tx.vin;
         outputs = transaction.tx.vout;
         block = transaction.block;
+
+        let indexExtra = extra.indexOf("7f");
+        let longitudHex = extra.substring(indexExtra + 2, indexExtra + 4);
+        let longitud = parseInt(longitudHex, 16);
+        let hexMensaje = extra.substring(indexExtra + 4, indexExtra + 4 + longitud * 2);
+        let extraASCII = hexMensaje.match(/.{2}/g)?.map(byte => String.fromCharCode(parseInt(byte, 16))).join('') || "";
 
         updateText('transaction.hash', details.hash);
         if (block.hash) {
@@ -138,6 +147,8 @@
         if (!details.mixin)
             $('#div_transaction_mixin').hide();
         updateText('transaction.paymentId', details.paymentId);
+        updateText('transaction.extra', extra);
+        updateText('transaction.extra.decifer', extraASCII || " - ");
         updateText('transaction.paymentIdDecifer', hex2a(details.paymentId));
         if (!details.paymentId)
             $('#div_transaction_paymentId').hide();
