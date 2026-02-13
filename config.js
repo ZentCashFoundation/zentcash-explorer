@@ -9,7 +9,7 @@ var refreshDelay = 30000;
 // pools stats by MainCoins
 var networkStat = {
  "ztc": [
-   ["superblockchain.zapto.org", "https://superblockchain.zapto.org:14036"],
+   ["superblockchain.zapto.org", "https://superblockchain.zapto.org/api/ztc"],
    ["ztcpool.sytes.net", "https://ztcpool.sytes.net/api"]
  ]
 };
