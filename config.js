@@ -1,4 +1,4 @@
-var api = 'https://superblockchain.con-ip.com/api/ztc';
+var api = 'https://superblockchain.zapto.org/api/ztc';
 var donationAddress = "";
 var blockTargetInterval = 60; // enter the block interval in seconds
 var coinUnits = 100;  // enter in the amount of atomic units in 1 coin, eg. 100 shells = 1 ZTC
@@ -9,7 +9,7 @@ var refreshDelay = 30000;
 // pools stats by MainCoins
 var networkStat = {
  "ztc": [
-   ["superblockchain.con-ip.com", "https://superblockchain.con-ip.com:14036"],
+   ["superblockchain.zapto.org", "https://superblockchain.zapto.org:14036"],
    ["ztcpool.sytes.net", "https://ztcpool.sytes.net/api"]
  ]
 };
